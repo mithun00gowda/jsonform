@@ -1,0 +1,18 @@
+{
+  "type": "object",
+  "properties": {
+    "name": { "type": "string", "default": "John Doe" },
+    "age": { "type": "string", "default": "30" },
+    "gender": { "type": "string", "enum": ["Male", "Female"], "default": "Male" },
+    "addresses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "street": { "type": "string" },
+          "city": { "type": "string", "default": "New York" }
+        }
+      }
+    }
+  }
+}

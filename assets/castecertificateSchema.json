@@ -1,0 +1,146 @@
+{
+  "jsonSchema": {
+    "schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "required": ["@context", "@type", "issuer", "credentialSubject", "proof"],
+    "properties": {
+      "@context": {
+        "type": "array",
+        "items": {
+          "oneOf": [
+            { "type": "string" ,"default":"https://schema.org"},
+            {
+              "type": "object",
+              "properties": {
+                "@vocab": { "type": "string","default":"https://www.w3.org/2018/credentials/v1" },
+                "issuer": {
+                  "type": "object",
+                  "properties": {
+                    "@id": { "type": "string" ,"default":"https://www.w3.org/2018/credentials#issuer"},
+                    "@type": { "type": "string","default":"@id"}
+                  },
+                  "required": ["@id", "@type"]
+                }
+              }
+            }
+          ]
+        }
+      },
+      "@type": {
+        "type": "array",
+        "default":["VerifiableCredential", "CasteCertificate"]
+      },
+      "issuer": {
+        "type": "object",
+        "required": ["@id", "@type", "name", "designation", "url"],
+        "properties": {
+          "@type": { "type": "string","default":"GovernmentOrganization" },
+          "name": { "type": "string" },
+          "designation": { "type": "string" },
+          "url": { "type": "string", "format": "uri" }
+        }
+      },
+      "credentialSubject": {
+          "type": "object",
+          "required": [
+            "@type",
+            "name",
+            "birthDate",
+            "birthPlace",
+            "caste",
+            "image",
+            "certificateNumber",
+            "addresses",
+            "parentDetails",
+            "religion",
+            "community",
+            "relationshipToParents"
+          ],
+          "properties": {
+            "@type": { "type": "string","default":"Person" },
+            "name": { "type": "string" },
+            "birthDate": { "type": "string", "format": "date" },
+            "birthPlace": {
+              "type": "object",
+              "required": ["@type", "name", "address"],
+              "properties": {
+                "@type": { "type": "string","default":"Place" },
+                "placeName": { "type": "string" },
+                "address": {
+                  "type": "object",
+                  "required": ["@type", "addressRegion", "addressCountry"],
+                  "properties": {
+                    "@type": { "type": "string","default":"PostalAddress"},
+                    "addressRegion": { "type": "string" },
+                    "addressCountry": { "type": "string" }
+                  }
+                }
+              }
+            },
+            "caste": { "type": "string" },
+            "image": {
+              "type": "string",
+              "pattern": "^data:image/(png|jpeg);base64,[a-zA-Z0-9+/=]+$"
+            ,"format":"image"
+            },
+            "certificateNumber": { "type": "string" },
+            "addresses": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["@type", "addressType", "streetAddress", "addressLocality", "addressRegion", "addressCountry", "postalCode"],
+                "properties": {
+                  "@type": { "type": "string","default":"PostalAddress" },
+                  "addressType": { "type": "string","enum":["Current Address","Permanent Address"] },
+                  "streetAddress": { "type": "string" },
+                  "addressLocality": { "type": "string" },
+                  "addressRegion": { "type": "string" },
+                  "addressCountry": { "type": "string" },
+                  "postalCode": { "type": "string", "pattern": "^[0-9]{6}$" }
+                }
+              }
+            },
+            "familyDetails": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["@type", "relation", "personName", "caste", "subCaste", "religion"],
+                "properties": {
+                  "@type": { "type": "string","enum":["Person"] },
+                  "relation": { "type": "string" },
+                  "personName": { "type": "string" },
+                  "caste": { "type": "string" },
+                  "subCaste": { "type": "string" },
+                  "religion": { "type": "string" }
+                }
+              }
+            },
+            "religion": { "type": "string" },
+            "community": {
+              "type": "object",
+              "required": ["group", "subGroup"],
+              "properties": {
+                "group": { "type": "string" },
+                "subGroup": { "type": "string" }
+              }
+            }
+          }
+        },
+      "proof": {
+        "type": "object",
+        "required": ["type", "created", "proofPurpose", "verificationMethod", "jws"],
+        "properties": {
+          "type": { "type": "string" },
+          "created": { "type": "string", "format": "date-time" },
+          "proofPurpose": { "type": "string" },
+          "verificationMethod": { "type": "string" },
+          "jws": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9+/=]+$"
+          }
+        }
+      }
+    }
+  }
+}
+  
