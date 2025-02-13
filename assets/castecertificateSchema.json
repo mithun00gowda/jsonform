@@ -1,5 +1,5 @@
 {
-  "jsonSchema": {
+  "json_schema": {
     "schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
     "required": ["@context", "@type", "issuer", "credentialSubject", "proof"],
@@ -35,7 +35,7 @@
         "required": ["@id", "@type", "name", "designation", "url"],
         "properties": {
           "@type": { "type": "string","default":"GovernmentOrganization" },
-          "name": { "type": "string" },
+          "issuerName": { "type": "string" },
           "designation": { "type": "string" },
           "url": { "type": "string", "format": "uri" }
         }
